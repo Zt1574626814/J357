@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.ItripHotelMapper">
+
+    <resultMap type="com.bdqn.entity.ItripHotel" id="ItripHotelMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="hotelname" column="hotelName" jdbcType="VARCHAR"/>
+        <result property="countryid" column="countryId" jdbcType="INTEGER"/>
+        <result property="provinceid" column="provinceId" jdbcType="INTEGER"/>
+        <result property="cityid" column="cityId" jdbcType="INTEGER"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="details" column="details" jdbcType="VARCHAR"/>
+        <result property="facilities" column="facilities" jdbcType="VARCHAR"/>
+        <result property="hotelpolicy" column="hotelPolicy" jdbcType="VARCHAR"/>
+        <result property="hoteltype" column="hotelType" jdbcType="INTEGER"/>
+        <result property="hotellevel" column="hotelLevel" jdbcType="INTEGER"/>
+        <result property="isgrouppurchase" column="isGroupPurchase" jdbcType="INTEGER"/>
+        <result property="redundantcityname" column="redundantCityName" jdbcType="VARCHAR"/>
+        <result property="redundantprovincename" column="redundantProvinceName" jdbcType="VARCHAR"/>
+        <result property="redundantcountryname" column="redundantCountryName" jdbcType="VARCHAR"/>
+        <result property="redundanthotelstore" column="redundantHotelStore" jdbcType="INTEGER"/>
+        <result property="creationdate" column="creationDate" jdbcType="TIMESTAMP"/>
+        <result property="createdby" column="createdBy" jdbcType="INTEGER"/>
+        <result property="modifydate" column="modifyDate" jdbcType="TIMESTAMP"/>
+        <result property="modifiedby" column="modifiedBy" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ItripHotelMap">
+        select id,
+               hotelName,
+               countryId,
+               provinceId,
+               cityId,
+               address,
+               details,
+               facilities,
+               hotelPolicy,
+               hotelType,
+               hotelLevel,
+               isGroupPurchase,
+               redundantCityName,
+               redundantProvinceName,
+               redundantCountryName,
+               redundantHotelStore,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy
+        from itrip_hotel
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ItripHotelMap">
+        select id,
+               hotelName,
+               countryId,
+               provinceId,
+               cityId,
+               address,
+               details,
+               facilities,
+               hotelPolicy,
+               hotelType,
+               hotelLevel,
+               isGroupPurchase,
+               redundantCityName,
+               redundantProvinceName,
+               redundantCountryName,
+               redundantHotelStore,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy
+        from itrip_hotel limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from itrip_hotel
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="hotelname != null and hotelname != ''">
+                and hotelName = #{hotelname}
+            </if>
+            <if test="countryid != null">
+                and countryId = #{countryid}
+            </if>
+            <if test="provinceid != null">
+                and provinceId = #{provinceid}
+            </if>
+            <if test="cityid != null">
+                and cityId = #{cityid}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="details != null and details != ''">
+                and details = #{details}
+            </if>
+            <if test="facilities != null and facilities != ''">
+                and facilities = #{facilities}
+            </if>
+            <if test="hotelpolicy != null and hotelpolicy != ''">
+                and hotelPolicy = #{hotelpolicy}
+            </if>
+            <if test="hoteltype != null">
+                and hotelType = #{hoteltype}
+            </if>
+            <if test="hotellevel != null">
+                and hotelLevel = #{hotellevel}
+            </if>
+            <if test="isgrouppurchase != null">
+                and isGroupPurchase = #{isgrouppurchase}
+            </if>
+            <if test="redundantcityname != null and redundantcityname != ''">
+                and redundantCityName = #{redundantcityname}
+            </if>
+            <if test="redundantprovincename != null and redundantprovincename != ''">
+                and redundantProvinceName = #{redundantprovincename}
+            </if>
+            <if test="redundantcountryname != null and redundantcountryname != ''">
+                and redundantCountryName = #{redundantcountryname}
+            </if>
+            <if test="redundanthotelstore != null">
+                and redundantHotelStore = #{redundanthotelstore}
+            </if>
+            <if test="creationdate != null">
+                and creationDate = #{creationdate}
+            </if>
+            <if test="createdby != null">
+                and createdBy = #{createdby}
+            </if>
+            <if test="modifydate != null">
+                and modifyDate = #{modifydate}
+            </if>
+            <if test="modifiedby != null">
+                and modifiedBy = #{modifiedby}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_hotel(hotelName, countryId, provinceId, cityId, address, details, facilities, hotelPolicy,
+                                hotelType, hotelLevel, isGroupPurchase, redundantCityName, redundantProvinceName,
+                                redundantCountryName, redundantHotelStore, creationDate, createdBy, modifyDate,
+                                modifiedBy)
+        values (#{hotelname}, #{countryid}, #{provinceid}, #{cityid}, #{address}, #{details}, #{facilities},
+                #{hotelpolicy}, #{hoteltype}, #{hotellevel}, #{isgrouppurchase}, #{redundantcityname},
+                #{redundantprovincename}, #{redundantcountryname}, #{redundanthotelstore}, #{creationdate},
+                #{createdby}, #{modifydate}, #{modifiedby})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_hotel(hotelName, countryId, provinceId, cityId, address, details, facilities, hotelPolicy,
+        hotelType, hotelLevel, isGroupPurchase, redundantCityName, redundantProvinceName, redundantCountryName,
+        redundantHotelStore, creationDate, createdBy, modifyDate, modifiedBy)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelname}, #{entity.countryid}, #{entity.provinceid}, #{entity.cityid}, #{entity.address},
+            #{entity.details}, #{entity.facilities}, #{entity.hotelpolicy}, #{entity.hoteltype}, #{entity.hotellevel},
+            #{entity.isgrouppurchase}, #{entity.redundantcityname}, #{entity.redundantprovincename},
+            #{entity.redundantcountryname}, #{entity.redundanthotelstore}, #{entity.creationdate}, #{entity.createdby},
+            #{entity.modifydate}, #{entity.modifiedby})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_hotel(hotelName, countryId, provinceId, cityId, address, details, facilities, hotelPolicy,
+        hotelType, hotelLevel, isGroupPurchase, redundantCityName, redundantProvinceName, redundantCountryName,
+        redundantHotelStore, creationDate, createdBy, modifyDate, modifiedBy)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelname}, #{entity.countryid}, #{entity.provinceid}, #{entity.cityid}, #{entity.address},
+            #{entity.details}, #{entity.facilities}, #{entity.hotelpolicy}, #{entity.hoteltype}, #{entity.hotellevel},
+            #{entity.isgrouppurchase}, #{entity.redundantcityname}, #{entity.redundantprovincename},
+            #{entity.redundantcountryname}, #{entity.redundanthotelstore}, #{entity.creationdate}, #{entity.createdby},
+            #{entity.modifydate}, #{entity.modifiedby})
+        </foreach>
+        on duplicate key update
+        hotelName = values(hotelName),
+        countryId = values(countryId),
+        provinceId = values(provinceId),
+        cityId = values(cityId),
+        address = values(address),
+        details = values(details),
+        facilities = values(facilities),
+        hotelPolicy = values(hotelPolicy),
+        hotelType = values(hotelType),
+        hotelLevel = values(hotelLevel),
+        isGroupPurchase = values(isGroupPurchase),
+        redundantCityName = values(redundantCityName),
+        redundantProvinceName = values(redundantProvinceName),
+        redundantCountryName = values(redundantCountryName),
+        redundantHotelStore = values(redundantHotelStore),
+        creationDate = values(creationDate),
+        createdBy = values(createdBy),
+        modifyDate = values(modifyDate),
+        modifiedBy = values(modifiedBy)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update itrip_hotel
+        <set>
+            <if test="hotelname != null and hotelname != ''">
+                hotelName = #{hotelname},
+            </if>
+            <if test="countryid != null">
+                countryId = #{countryid},
+            </if>
+            <if test="provinceid != null">
+                provinceId = #{provinceid},
+            </if>
+            <if test="cityid != null">
+                cityId = #{cityid},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="details != null and details != ''">
+                details = #{details},
+            </if>
+            <if test="facilities != null and facilities != ''">
+                facilities = #{facilities},
+            </if>
+            <if test="hotelpolicy != null and hotelpolicy != ''">
+                hotelPolicy = #{hotelpolicy},
+            </if>
+            <if test="hoteltype != null">
+                hotelType = #{hoteltype},
+            </if>
+            <if test="hotellevel != null">
+                hotelLevel = #{hotellevel},
+            </if>
+            <if test="isgrouppurchase != null">
+                isGroupPurchase = #{isgrouppurchase},
+            </if>
+            <if test="redundantcityname != null and redundantcityname != ''">
+                redundantCityName = #{redundantcityname},
+            </if>
+            <if test="redundantprovincename != null and redundantprovincename != ''">
+                redundantProvinceName = #{redundantprovincename},
+            </if>
+            <if test="redundantcountryname != null and redundantcountryname != ''">
+                redundantCountryName = #{redundantcountryname},
+            </if>
+            <if test="redundanthotelstore != null">
+                redundantHotelStore = #{redundanthotelstore},
+            </if>
+            <if test="creationdate != null">
+                creationDate = #{creationdate},
+            </if>
+            <if test="createdby != null">
+                createdBy = #{createdby},
+            </if>
+            <if test="modifydate != null">
+                modifyDate = #{modifydate},
+            </if>
+            <if test="modifiedby != null">
+                modifiedBy = #{modifiedby},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from itrip_hotel
+        where id = #{id}
+    </delete>
+
+</mapper>
+

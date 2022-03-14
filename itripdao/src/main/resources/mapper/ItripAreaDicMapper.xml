@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.ItripAreaDicMapper">
+
+    <resultMap type="com.bdqn.entity.ItripAreaDic" id="ItripAreaDicMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="areano" column="areaNo" jdbcType="VARCHAR"/>
+        <result property="parent" column="parent" jdbcType="INTEGER"/>
+        <result property="isactivated" column="isActivated" jdbcType="INTEGER"/>
+        <result property="istradingarea" column="isTradingArea" jdbcType="INTEGER"/>
+        <result property="ishot" column="isHot" jdbcType="INTEGER"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="ischina" column="isChina" jdbcType="INTEGER"/>
+        <result property="pinyin" column="pinyin" jdbcType="VARCHAR"/>
+        <result property="creationdate" column="creationDate" jdbcType="TIMESTAMP"/>
+        <result property="createdby" column="createdBy" jdbcType="INTEGER"/>
+        <result property="modifydate" column="modifyDate" jdbcType="TIMESTAMP"/>
+        <result property="modifiedby" column="modifiedBy" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询热门酒店-->
+    <select id="queryHotHotel" resultMap="ItripAreaDicMap">
+        select *
+        from itrip_area_dic
+        where isChina = #{type}
+          and isHot = 1
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ItripAreaDicMap">
+        select id,
+               name,
+               areaNo,
+               parent,
+               isActivated,
+               isTradingArea,
+               isHot,
+               level,
+               isChina,
+               pinyin,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy
+        from itrip_area_dic
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ItripAreaDicMap">
+        select id,
+               name,
+               areaNo,
+               parent,
+               isActivated,
+               isTradingArea,
+               isHot,
+               level,
+               isChina,
+               pinyin,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy
+        from itrip_area_dic limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from itrip_area_dic
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="areano != null and areano != ''">
+                and areaNo = #{areano}
+            </if>
+            <if test="parent != null">
+                and parent = #{parent}
+            </if>
+            <if test="isactivated != null">
+                and isActivated = #{isactivated}
+            </if>
+            <if test="istradingarea != null">
+                and isTradingArea = #{istradingarea}
+            </if>
+            <if test="ishot != null">
+                and isHot = #{ishot}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="ischina != null">
+                and isChina = #{ischina}
+            </if>
+            <if test="pinyin != null and pinyin != ''">
+                and pinyin = #{pinyin}
+            </if>
+            <if test="creationdate != null">
+                and creationDate = #{creationdate}
+            </if>
+            <if test="createdby != null">
+                and createdBy = #{createdby}
+            </if>
+            <if test="modifydate != null">
+                and modifyDate = #{modifydate}
+            </if>
+            <if test="modifiedby != null">
+                and modifiedBy = #{modifiedby}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_area_dic(name, areaNo, parent, isActivated, isTradingArea, isHot, level, isChina, pinyin,
+                                   creationDate, createdBy, modifyDate, modifiedBy)
+        values (#{name}, #{areano}, #{parent}, #{isactivated}, #{istradingarea}, #{ishot}, #{level}, #{ischina},
+                #{pinyin}, #{creationdate}, #{createdby}, #{modifydate}, #{modifiedby})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_area_dic(name, areaNo, parent, isActivated, isTradingArea, isHot, level, isChina, pinyin,
+        creationDate, createdBy, modifyDate, modifiedBy)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.areano}, #{entity.parent}, #{entity.isactivated}, #{entity.istradingarea},
+            #{entity.ishot}, #{entity.level}, #{entity.ischina}, #{entity.pinyin}, #{entity.creationdate},
+            #{entity.createdby}, #{entity.modifydate}, #{entity.modifiedby})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_area_dic(name, areaNo, parent, isActivated, isTradingArea, isHot, level, isChina, pinyin,
+        creationDate, createdBy, modifyDate, modifiedBy)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.areano}, #{entity.parent}, #{entity.isactivated}, #{entity.istradingarea},
+            #{entity.ishot}, #{entity.level}, #{entity.ischina}, #{entity.pinyin}, #{entity.creationdate},
+            #{entity.createdby}, #{entity.modifydate}, #{entity.modifiedby})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        areaNo = values(areaNo),
+        parent = values(parent),
+        isActivated = values(isActivated),
+        isTradingArea = values(isTradingArea),
+        isHot = values(isHot),
+        level = values(level),
+        isChina = values(isChina),
+        pinyin = values(pinyin),
+        creationDate = values(creationDate),
+        createdBy = values(createdBy),
+        modifyDate = values(modifyDate),
+        modifiedBy = values(modifiedBy)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update itrip_area_dic
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="areano != null and areano != ''">
+                areaNo = #{areano},
+            </if>
+            <if test="parent != null">
+                parent = #{parent},
+            </if>
+            <if test="isactivated != null">
+                isActivated = #{isactivated},
+            </if>
+            <if test="istradingarea != null">
+                isTradingArea = #{istradingarea},
+            </if>
+            <if test="ishot != null">
+                isHot = #{ishot},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="ischina != null">
+                isChina = #{ischina},
+            </if>
+            <if test="pinyin != null and pinyin != ''">
+                pinyin = #{pinyin},
+            </if>
+            <if test="creationdate != null">
+                creationDate = #{creationdate},
+            </if>
+            <if test="createdby != null">
+                createdBy = #{createdby},
+            </if>
+            <if test="modifydate != null">
+                modifyDate = #{modifydate},
+            </if>
+            <if test="modifiedby != null">
+                modifiedBy = #{modifiedby},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from itrip_area_dic
+        where id = #{id}
+    </delete>
+
+</mapper>
+

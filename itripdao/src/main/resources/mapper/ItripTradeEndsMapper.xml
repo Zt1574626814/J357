@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.ItripTradeEndsMapper">
+
+    <resultMap type="com.bdqn.entity.ItripTradeEnds" id="ItripTradeEndsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderno" column="orderNo" jdbcType="VARCHAR"/>
+        <result property="flag" column="flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ItripTradeEndsMap">
+        select id,
+               orderNo,
+               flag
+        from itrip_trade_ends
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ItripTradeEndsMap">
+        select id,
+               orderNo,
+               flag
+        from itrip_trade_ends limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from itrip_trade_ends
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderno != null and orderno != ''">
+                and orderNo = #{orderno}
+            </if>
+            <if test="flag != null">
+                and flag = #{flag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_trade_ends(orderNo, flag)
+        values (#{orderno}, #{flag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_trade_ends(orderNo, flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderno}, #{entity.flag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_trade_ends(orderNo, flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderno}, #{entity.flag})
+        </foreach>
+        on duplicate key update
+        orderNo = values(orderNo),
+        flag = values(flag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update itrip_trade_ends
+        <set>
+            <if test="orderno != null and orderno != ''">
+                orderNo = #{orderno},
+            </if>
+            <if test="flag != null">
+                flag = #{flag},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from itrip_trade_ends
+        where id = #{id}
+    </delete>
+
+</mapper>
+

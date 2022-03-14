@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.ItripUserMapper">
+
+    <resultMap type="com.bdqn.entity.ItripUser" id="ItripUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userCode" column="userCode" jdbcType="VARCHAR"/>
+        <result property="userPassword" column="userPassword" jdbcType="VARCHAR"/>
+        <result property="userType" column="userType" jdbcType="INTEGER"/>
+        <result property="flatId" column="flatID" jdbcType="INTEGER"/>
+        <result property="userName" column="userName" jdbcType="VARCHAR"/>
+        <result property="weChat" column="weChat" jdbcType="VARCHAR"/>
+        <result property="qq" column="qq" jdbcType="VARCHAR"/>
+        <result property="weibo" column="weibo" jdbcType="VARCHAR"/>
+        <result property="baidu" column="baidu" jdbcType="VARCHAR"/>
+        <result property="creationDate" column="creationDate" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="createdBy" jdbcType="INTEGER"/>
+        <result property="modifyDate" column="modifyDate" jdbcType="TIMESTAMP"/>
+        <result property="modifiedBy" column="modifiedBy" jdbcType="INTEGER"/>
+        <result property="activated" column="activated" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="login" resultMap="ItripUserMap">
+        select *
+        from itrip_user
+        where userCode = #{username}
+          and userPassword = #{password};
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ItripUserMap">
+        select id,
+               userCode,
+               userPassword,
+               userType,
+               flatID,
+               userName,
+               weChat,
+               qq,
+               weibo,
+               baidu,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy,
+               activated
+        from itrip_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ItripUserMap">
+        select id,
+               userCode,
+               userPassword,
+               userType,
+               flatID,
+               userName,
+               weChat,
+               qq,
+               weibo,
+               baidu,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy,
+               activated
+        from itrip_user limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from itrip_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userCode != null and userCode != ''">
+                and userCode = #{userCode}
+            </if>
+            <if test="userPassword != null and userPassword != ''">
+                and userPassword = #{userPassword}
+            </if>
+            <if test="userType != null">
+                and userType = #{userType}
+            </if>
+            <if test="flatId != null">
+                and flatID = #{flatId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and userName = #{userName}
+            </if>
+            <if test="weChat != null and weChat != ''">
+                and weChat = #{weChat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="weibo != null and weibo != ''">
+                and weibo = #{weibo}
+            </if>
+            <if test="baidu != null and baidu != ''">
+                and baidu = #{baidu}
+            </if>
+            <if test="creationDate != null">
+                and creationDate = #{creationDate}
+            </if>
+            <if test="createdBy != null">
+                and createdBy = #{createdBy}
+            </if>
+            <if test="modifyDate != null">
+                and modifyDate = #{modifyDate}
+            </if>
+            <if test="modifiedBy != null">
+                and modifiedBy = #{modifiedBy}
+            </if>
+            <if test="activated != null">
+                and activated = #{activated}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_user(userCode, userPassword, userName, activated)
+        values (#{userCode}, #{userPassword}, #{userName}, #{activated})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_user(userCode, userPassword, userType, flatID, userName, weChat, qq, weibo, baidu,
+        creationDate, createdBy, modifyDate, modifiedBy, activated)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.usercode}, #{entity.userPassword}, #{entity.userType}, #{entity.flatID}, #{entity.userName},
+            #{entity.weChat}, #{entity.qq}, #{entity.weibo}, #{entity.baidu}, #{entity.creationDate},
+            #{entity.createdBy}, #{entity.modifyDate}, #{entity.modifiedBy}, #{entity.activated})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_user(userCode, userPassword, userType, flatID, userName, weChat, qq, weibo, baidu,
+        creationDate, createdBy, modifyDate, modifiedBy, activated)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.usercode}, #{entity.userPassword}, #{entity.userType}, #{entity.flatID}, #{entity.userName},
+            #{entity.weChat}, #{entity.qq}, #{entity.weibo}, #{entity.baidu}, #{entity.creationDate},
+            #{entity.createdBy}, #{entity.modifyDate}, #{entity.modifiedBy}, #{entity.activated})
+        </foreach>
+        on duplicate key update
+        userCode = values(userCode),
+        userPassword = values(userPassword),
+        userType = values(userType),
+        flatID = values(flatID),
+        userName = values(userName),
+        weChat = values(weChat),
+        qq = values(qq),
+        weibo = values(weibo),
+        baidu = values(baidu),
+        creationDate = values(creationDate),
+        createdBy = values(createdBy),
+        modifyDate = values(modifyDate),
+        modifiedBy = values(modifiedBy),
+        activated = values(activated)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update itrip_user
+        <set>
+            <if test="usercode != null and usercode != ''">
+                userCode = #{usercode},
+            </if>
+            <if test="userPassword != null and userPassword != ''">
+                userPassword = #{userPassword},
+            </if>
+            <if test="userType != null">
+                userType = #{userType},
+            </if>
+            <if test="flatID != null">
+                flatID = #{flatID},
+            </if>
+            <if test="userName != null and userName != ''">
+                userName = #{userName},
+            </if>
+            <if test="weChat != null and weChat != ''">
+                weChat = #{weChat},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="weibo != null and weibo != ''">
+                weibo = #{weibo},
+            </if>
+            <if test="baidu != null and baidu != ''">
+                baidu = #{baidu},
+            </if>
+            <if test="creationDate != null">
+                creationDate = #{creationDate},
+            </if>
+            <if test="createdBy != null">
+                createdBy = #{createdBy},
+            </if>
+            <if test="modifyDate != null">
+                modifyDate = #{modifyDate},
+            </if>
+            <if test="modifiedBy != null">
+                modifiedBy = #{modifiedBy},
+            </if>
+            <if test="activated != null">
+                activated = #{activated},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateActivatedByUserCode">
+        update itrip_user
+        set activated = #{activated}
+        where userCode = #{userCode}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from itrip_user
+        where id = #{id}
+    </delete>
+
+</mapper>
+

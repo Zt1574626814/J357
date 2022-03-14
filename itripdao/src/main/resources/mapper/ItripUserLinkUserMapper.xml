@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.ItripUserLinkUserMapper">
+
+    <!--查询单个-->
+    <select id="queryById" resultType="ItripUserLinkUser">
+        select id,
+               linkUserName,
+               linkIdCard,
+               linkPhone,
+               userId,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy,
+               linkIdCardType
+        from itrip_user_link_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultType="ItripUserLinkUser">
+        select id,
+               linkUserName,
+               linkIdCard,
+               linkPhone,
+               userId,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy,
+               linkIdCardType
+        from itrip_user_link_user limit #{offset}, #{pageSize}
+    </select>
+
+    <select id="getItripUserLinkUserListByMap" resultType="ItripUserLinkUser" parameterType="java.util.Map">
+        select
+        id as id,
+        linkUserName as linkUserName,
+        linkIdCard as linkIdCard,
+        linkPhone as linkPhone,
+        userId as userId,
+        creationDate as creationDate,
+        createdBy as createdBy,
+        modifyDate as modifyDate,
+        modifiedBy as modifiedBy,
+        linkIdCardType as linkIdCardType
+        from itrip_user_link_user
+        <where>
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="linkUserName != null and linkUserName!=''">
+                and linkUserName like concat('%',#{linkUserName},'%')
+            </if>
+            <if test="linkIdCard != null and linkIdCard!=''">
+                and linkIdCard=#{linkIdCard}
+            </if>
+            <if test="linkPhone != null and linkPhone!=''">
+                and linkPhone=#{linkPhone}
+            </if>
+            <if test="userId != null and userId!=''">
+                and userId=#{userId}
+            </if>
+            <if test="creationDate != null and creationDate!=''">
+                and creationDate=#{creationDate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and createdBy=#{createdBy}
+            </if>
+            <if test="modifyDate != null and modifyDate!=''">
+                and modifyDate=#{modifyDate}
+            </if>
+            <if test="modifiedBy != null and modifiedBy!=''">
+                and modifiedBy=#{modifiedBy}
+            </if>
+            <if test="linkIdCardType != null and linkIdCardType !=''">
+                and linkIdCardType=#{linkIdCardType}
+            </if>
+        </where>
+        order by creationDate desc
+    </select>
+
+    <select id="queryByEntity" resultType="ItripUserLinkUser">
+        select
+        id as id,
+        linkUserName as linkUserName,
+        linkIdCard as linkIdCard,
+        linkPhone as linkPhone,
+        userId as userId,
+        creationDate as creationDate,
+        createdBy as createdBy,
+        modifyDate as modifyDate,
+        modifiedBy as modifiedBy,
+        linkIdCardType as linkIdCardType
+        from itrip_user_link_user
+        <where>
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="linkUserName != null and linkUserName!=''">
+                and linkUserName like concat('%',#{linkUserName},'%')
+            </if>
+            <if test="linkIdCard != null and linkIdCard!=''">
+                and linkIdCard=#{linkIdCard}
+            </if>
+            <if test="linkPhone != null and linkPhone!=''">
+                and linkPhone=#{linkPhone}
+            </if>
+            <if test="userId != null and userId!=''">
+                and userId=#{userId}
+            </if>
+            <if test="creationDate != null and creationDate!=''">
+                and creationDate=#{creationDate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and createdBy=#{createdBy}
+            </if>
+            <if test="modifyDate != null and modifyDate!=''">
+                and modifyDate=#{modifyDate}
+            </if>
+            <if test="modifiedBy != null and modifiedBy!=''">
+                and modifiedBy=#{modifiedBy}
+            </if>
+            <if test="linkIdCardType != null and linkIdCardType !=''">
+                and linkIdCardType=#{linkIdCardType}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from itrip_user_link_user
+        <where>
+            <if test="id != null and id!=''">
+                and id=#{id}
+            </if>
+            <if test="linkUserName != null and linkUserName!=''">
+                and linkUserName like concat('%',#{linkUserName},'%')
+            </if>
+            <if test="linkIdCard != null and linkIdCard!=''">
+                and linkIdCard=#{linkIdCard}
+            </if>
+            <if test="linkPhone != null and linkPhone!=''">
+                and linkPhone=#{linkPhone}
+            </if>
+            <if test="userId != null and userId!=''">
+                and userId=#{userId}
+            </if>
+            <if test="creationDate != null and creationDate!=''">
+                and creationDate=#{creationDate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and createdBy=#{createdBy}
+            </if>
+            <if test="modifyDate != null and modifyDate!=''">
+                and modifyDate=#{modifyDate}
+            </if>
+            <if test="modifiedBy != null and modifiedBy!=''">
+                and modifiedBy=#{modifiedBy}
+            </if>
+            <if test="linkIdCardType != null and linkIdCardType !=''">
+                and linkIdCardType=#{linkIdCardType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert">
+        insert into itrip_user_link_user(linkUserName, linkIdCard, linkPhone, userId, creationDate, createdBy,
+                                         modifyDate, modifiedBy, linkIdCardType)
+        values (#{linkUserName}, #{linkIdCard}, #{linkPhone}, #{userId}, now(), #{userId}, now(),
+                #{userId}, #{linkIdCardType})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update itrip_user_link_user
+        <set>
+            <if test="linkUserName != null and linkUserName!=''">
+                linkUserName=#{linkUserName},
+            </if>
+            <if test="linkIdCard != null and linkIdCard!=''">
+                linkIdCard=#{linkIdCard},
+            </if>
+            <if test="linkPhone != null and linkPhone!=''">
+                linkPhone=#{linkPhone},
+            </if>
+            <if test="userId != null and userId!=''">
+                userId=#{userId},
+            </if>
+            <if test="creationDate != null and creationDate!=''">
+                creationDate=#{creationDate},
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                createdBy=#{createdBy},
+            </if>
+            <if test="modifyDate != null and modifyDate!=''">
+                modifyDate=now(),
+            </if>
+            <if test="modifiedBy != null and modifiedBy!=''">
+                modifiedBy=#{modifiedBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from itrip_user_link_user
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete
+        from itrip_user_link_user
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+

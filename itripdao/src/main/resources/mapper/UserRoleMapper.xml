@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.UserRoleMapper">
+
+    <resultMap type="com.bdqn.entity.UserRole" id="UserRoleMap">
+        <result property="roleid" column="roleid" jdbcType="INTEGER"/>
+        <result property="uid" column="uid" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserRoleMap">
+        select roleid,
+               uid
+        from user_role limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from user_role
+        <where>
+            <if test="roleid != null">
+                and roleid = #{roleid}
+            </if>
+            <if test="uid != null">
+                and uid = #{uid}
+            </if>
+        </where>
+    </select>
+
+</mapper>
+

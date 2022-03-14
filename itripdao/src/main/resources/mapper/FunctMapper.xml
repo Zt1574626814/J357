@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.FunctMapper">
+
+    <resultMap type="com.bdqn.entity.Funct" id="FunctMap">
+        <result property="functid" column="functid" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FunctMap">
+        select functid,
+               name
+        from funct
+        where functid = #{functid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FunctMap">
+        select functid,
+               name
+        from funct limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from funct
+        <where>
+            <if test="functid != null">
+                and functid = #{functid}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="functid" useGeneratedKeys="true">
+        insert into funct(name)
+        values (#{name})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="functid" useGeneratedKeys="true">
+        insert into funct(name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="functid" useGeneratedKeys="true">
+        insert into funct(name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name})
+        </foreach>
+        on duplicate key update
+        name = values(name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update funct
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where functid = #{functid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from funct
+        where functid = #{functid}
+    </delete>
+
+</mapper>
+

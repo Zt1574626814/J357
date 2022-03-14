@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.mapper.ItripCommentMapper">
+
+    <resultMap type="com.bdqn.entity.ItripComment" id="ItripCommentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="hotelid" column="hotelId" jdbcType="INTEGER"/>
+        <result property="productid" column="productId" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderId" jdbcType="INTEGER"/>
+        <result property="producttype" column="productType" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="ishavingimg" column="isHavingImg" jdbcType="INTEGER"/>
+        <result property="positionscore" column="positionScore" jdbcType="INTEGER"/>
+        <result property="facilitiesscore" column="facilitiesScore" jdbcType="INTEGER"/>
+        <result property="servicescore" column="serviceScore" jdbcType="INTEGER"/>
+        <result property="hygienescore" column="hygieneScore" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="tripmode" column="tripMode" jdbcType="INTEGER"/>
+        <result property="isok" column="isOk" jdbcType="INTEGER"/>
+        <result property="creationdate" column="creationDate" jdbcType="TIMESTAMP"/>
+        <result property="createdby" column="createdBy" jdbcType="INTEGER"/>
+        <result property="modifydate" column="modifyDate" jdbcType="TIMESTAMP"/>
+        <result property="modifiedby" column="modifiedBy" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ItripCommentMap">
+        select id,
+               hotelId,
+               productId,
+               orderId,
+               productType,
+               content,
+               userId,
+               isHavingImg,
+               positionScore,
+               facilitiesScore,
+               serviceScore,
+               hygieneScore,
+               score,
+               tripMode,
+               isOk,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy
+        from itrip_comment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ItripCommentMap">
+        select id,
+               hotelId,
+               productId,
+               orderId,
+               productType,
+               content,
+               userId,
+               isHavingImg,
+               positionScore,
+               facilitiesScore,
+               serviceScore,
+               hygieneScore,
+               score,
+               tripMode,
+               isOk,
+               creationDate,
+               createdBy,
+               modifyDate,
+               modifiedBy
+        from itrip_comment limit #{offset}, #{pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from itrip_comment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="hotelid != null">
+                and hotelId = #{hotelid}
+            </if>
+            <if test="productid != null">
+                and productId = #{productid}
+            </if>
+            <if test="orderid != null">
+                and orderId = #{orderid}
+            </if>
+            <if test="producttype != null">
+                and productType = #{producttype}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="ishavingimg != null">
+                and isHavingImg = #{ishavingimg}
+            </if>
+            <if test="positionscore != null">
+                and positionScore = #{positionscore}
+            </if>
+            <if test="facilitiesscore != null">
+                and facilitiesScore = #{facilitiesscore}
+            </if>
+            <if test="servicescore != null">
+                and serviceScore = #{servicescore}
+            </if>
+            <if test="hygienescore != null">
+                and hygieneScore = #{hygienescore}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="tripmode != null">
+                and tripMode = #{tripmode}
+            </if>
+            <if test="isok != null">
+                and isOk = #{isok}
+            </if>
+            <if test="creationdate != null">
+                and creationDate = #{creationdate}
+            </if>
+            <if test="createdby != null">
+                and createdBy = #{createdby}
+            </if>
+            <if test="modifydate != null">
+                and modifyDate = #{modifydate}
+            </if>
+            <if test="modifiedby != null">
+                and modifiedBy = #{modifiedby}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_comment(hotelId, productId, orderId, productType, content, userId, isHavingImg, positionScore,
+                                  facilitiesScore, serviceScore, hygieneScore, score, tripMode, isOk, creationDate,
+                                  createdBy, modifyDate, modifiedBy)
+        values (#{hotelid}, #{productid}, #{orderid}, #{producttype}, #{content}, #{userid}, #{ishavingimg},
+                #{positionscore}, #{facilitiesscore}, #{servicescore}, #{hygienescore}, #{score}, #{tripmode}, #{isok},
+                #{creationdate}, #{createdby}, #{modifydate}, #{modifiedby})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_comment(hotelId, productId, orderId, productType, content, userId, isHavingImg, positionScore,
+        facilitiesScore, serviceScore, hygieneScore, score, tripMode, isOk, creationDate, createdBy, modifyDate,
+        modifiedBy)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelid}, #{entity.productid}, #{entity.orderid}, #{entity.producttype}, #{entity.content},
+            #{entity.userid}, #{entity.ishavingimg}, #{entity.positionscore}, #{entity.facilitiesscore},
+            #{entity.servicescore}, #{entity.hygienescore}, #{entity.score}, #{entity.tripmode}, #{entity.isok},
+            #{entity.creationdate}, #{entity.createdby}, #{entity.modifydate}, #{entity.modifiedby})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into itrip_comment(hotelId, productId, orderId, productType, content, userId, isHavingImg, positionScore,
+        facilitiesScore, serviceScore, hygieneScore, score, tripMode, isOk, creationDate, createdBy, modifyDate,
+        modifiedBy)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelid}, #{entity.productid}, #{entity.orderid}, #{entity.producttype}, #{entity.content},
+            #{entity.userid}, #{entity.ishavingimg}, #{entity.positionscore}, #{entity.facilitiesscore},
+            #{entity.servicescore}, #{entity.hygienescore}, #{entity.score}, #{entity.tripmode}, #{entity.isok},
+            #{entity.creationdate}, #{entity.createdby}, #{entity.modifydate}, #{entity.modifiedby})
+        </foreach>
+        on duplicate key update
+        hotelId = values(hotelId),
+        productId = values(productId),
+        orderId = values(orderId),
+        productType = values(productType),
+        content = values(content),
+        userId = values(userId),
+        isHavingImg = values(isHavingImg),
+        positionScore = values(positionScore),
+        facilitiesScore = values(facilitiesScore),
+        serviceScore = values(serviceScore),
+        hygieneScore = values(hygieneScore),
+        score = values(score),
+        tripMode = values(tripMode),
+        isOk = values(isOk),
+        creationDate = values(creationDate),
+        createdBy = values(createdBy),
+        modifyDate = values(modifyDate),
+        modifiedBy = values(modifiedBy)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update itrip_comment
+        <set>
+            <if test="hotelid != null">
+                hotelId = #{hotelid},
+            </if>
+            <if test="productid != null">
+                productId = #{productid},
+            </if>
+            <if test="orderid != null">
+                orderId = #{orderid},
+            </if>
+            <if test="producttype != null">
+                productType = #{producttype},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="ishavingimg != null">
+                isHavingImg = #{ishavingimg},
+            </if>
+            <if test="positionscore != null">
+                positionScore = #{positionscore},
+            </if>
+            <if test="facilitiesscore != null">
+                facilitiesScore = #{facilitiesscore},
+            </if>
+            <if test="servicescore != null">
+                serviceScore = #{servicescore},
+            </if>
+            <if test="hygienescore != null">
+                hygieneScore = #{hygienescore},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="tripmode != null">
+                tripMode = #{tripmode},
+            </if>
+            <if test="isok != null">
+                isOk = #{isok},
+            </if>
+            <if test="creationdate != null">
+                creationDate = #{creationdate},
+            </if>
+            <if test="createdby != null">
+                createdBy = #{createdby},
+            </if>
+            <if test="modifydate != null">
+                modifyDate = #{modifydate},
+            </if>
+            <if test="modifiedby != null">
+                modifiedBy = #{modifiedby},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from itrip_comment
+        where id = #{id}
+    </delete>
+
+</mapper>
+
