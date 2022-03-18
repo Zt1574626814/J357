@@ -36,6 +36,12 @@ public class UserRegisterController {
         return activate(user, code);
     }
 
+    /**
+     *
+     * @param user 邮箱
+     * @param code 验证码
+     * @return 是否激活成功
+     */
     @PutMapping("/activate")
     public Dto activateByMail(String user, String code){
         return activate(user, code);
