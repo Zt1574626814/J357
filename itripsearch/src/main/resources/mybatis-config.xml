@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 针对mybatis的设置 -->
+	<settings>
+		<!-- 开启日志 -->
+		<setting name="logImpl" value="STDOUT_LOGGING"/>
+		<!-- 自动映射 将我们的值与数据进行映射 -->
+		<setting name="autoMappingBehavior" value="FULL"/>
+		<!-- 二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+
+	<!-- 起别名 -->
+	<typeAliases>
+		<package name="com.bdqn.entity"/>
+	</typeAliases>
+
+</configuration>
+
