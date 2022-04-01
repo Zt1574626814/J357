@@ -4,8 +4,6 @@ package com.bdqn.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 /**
  * 接收客户端表单中的用户注册信息VO
  *

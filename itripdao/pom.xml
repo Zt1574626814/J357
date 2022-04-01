@@ -9,6 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <distributionManagement>
+        <repository>
+            <id>release</id>
+            <url>http://localhost:8090/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://localhost:8090/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <artifactId>itripdao</artifactId>
 
     <properties>

@@ -13,53 +13,5 @@
     <context:component-scan base-package="com.bdqn"/>
     <mvc:annotation-driven/>
 
-    <!-- 配置数据源 -->
-    <!-- destroy-method：销毁时执行的方法 -->
-    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          destroy-method="close">
-        <!-- 驱动名称 -->
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <!-- 数据库地址 -->
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/itripdb?useUnicode=true&amp;characterEncoding=utf8" />
-        <!-- 数据库登录账号 -->
-        <property name="username" value="root" />
-        <!-- 数据库登录密码 -->
-        <property name="password" value="zt17635322744." />
-    </bean>
-
-    <!-- 配置SQLSessionFactory -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!-- 引用数据源组件 -->
-        <property name="dataSource" ref="dataSource" />
-        <!-- 引用MyBatis配置文件中的配置 -->
-        <property name="configLocation" value="classpath:mybatis-config.xml" />
-        <!-- 配置SQL映射文件信息 -->
-        <property name="mapperLocations">
-            <list>
-                <!-- Mapper映射文件路径 -->
-                <value>classpath:mapper/*.xml</value>
-            </list>
-        </property>
-    </bean>
-
-    <!-- 把所有dao接口注册成bean -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- basePackage为Spring类中的属性 用来将value里声明的包中所有的类/接口注册为Bean -->
-        <property name="basePackage" value="com.bdqn.mapper" />
-    </bean>
-
-
-    <!-- 配置事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <!-- 配置视图解析器 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/"/><!-- 前置 -->
-        <property name="suffix" value=".jsp"/><!-- 后置 -->
-    </bean>
-
 </beans>
 

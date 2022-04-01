@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface ItripAreaDicMapper {
 
+    List<ItripAreaDic> getListByPid(@Param("pid") String pid);
 
     List<ItripAreaDic> queryHotHotel(@Param("type") int type);
 

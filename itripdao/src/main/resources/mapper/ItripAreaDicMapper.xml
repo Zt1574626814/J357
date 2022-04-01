@@ -19,6 +19,10 @@
         <result property="modifiedby" column="modifiedBy" jdbcType="INTEGER"/>
     </resultMap>
 
+    <select id="getListByPid" resultMap="ItripAreaDicMap">
+        select * from itrip_area_dic where parent = #{pid}
+    </select>
+
     <!--查询热门酒店-->
     <select id="queryHotHotel" resultMap="ItripAreaDicMap">
         select *

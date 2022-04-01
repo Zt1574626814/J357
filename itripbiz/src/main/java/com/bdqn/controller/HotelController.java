@@ -6,28 +6,33 @@ import com.bdqn.entity.ItripAreaDic;
 import com.bdqn.entity.ItripLabelDic;
 import com.bdqn.mapper.ItripAreaDicMapper;
 import com.bdqn.mapper.ItripLabelDicMapper;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/hotel")
 public class HotelController {
 
-    @Resource
-    ItripAreaDicMapper mapper1;
 
     @Resource
-    ItripLabelDicMapper mapper2;
+    ItripLabelDicMapper itripLabelDicMapper;
+
+    @Resource
+    ItripAreaDicMapper itripAreaDicMapper;
+
+    @GetMapping("/querytradearea/{pid}")
+    public Dto querytradearea(@PathVariable("pid") String pid){
+        return DtoUtil.returnDataSuccess(itripAreaDicMapper.getListByPid(pid));
+    }
 
     @RequestMapping("/queryhotcity/{type}")
-    @ResponseBody
     public Dto getCity(@PathVariable("type") int type) {
-        List<ItripAreaDic> list = mapper1.queryHotHotel(type);
+        List<ItripAreaDic> list = itripAreaDicMapper.queryHotHotel(type);
         if(list.size() == 0){
             return DtoUtil.returnFail("系统异常，获取失败","10202");
         }
@@ -35,9 +40,8 @@ public class HotelController {
     }
 
     @RequestMapping("/queryhotelfeature")
-    @ResponseBody
     public Dto queryHotelFeature() {
-        List<ItripLabelDic> list = mapper2.queryHotelFeature();
+        List<ItripLabelDic> list = itripLabelDicMapper.queryHotelFeature();
         if(list.size() == 0){
             return DtoUtil.returnFail("系统异常，获取失败","10205");
         }

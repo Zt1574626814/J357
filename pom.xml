@@ -117,7 +117,6 @@
         </dependency>
 
         <!-- jstl -->
-
         <!--        <dependency>-->
         <!--            <groupId>taglibs</groupId>-->
         <!--            <artifactId>standard</artifactId>-->
@@ -201,6 +200,7 @@
             <version>1.6.5</version>
         </dependency>
 
+        <!-- 短信发送 -->
         <dependency>
             <groupId>com.cloopen</groupId>
             <artifactId>java-sms-sdk</artifactId>
@@ -213,9 +213,5 @@
             <artifactId>mail</artifactId>
             <version>1.5.0-b01</version>
         </dependency>
-
-
-
-
     </dependencies>
 </project>
